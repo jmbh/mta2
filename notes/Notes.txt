@@ -1,0 +1,7 @@
+NOTES on package creation and adaption
+
+1.  Trajectory array object in mousetrap seems to be initialized with 9 dimensions even if
+	many of the variables do not yet exist or are irrelevant for the analysis. For our
+	purposes it may make sense to work with an alternative format that includes only xyt
+	and an identifier, i.e., ptp and trial or their concatenation 
+	

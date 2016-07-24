@@ -1,1 +1,25 @@
 useDynLib(mta2)
+importFrom(Rcpp, evalCpp)
+importFrom(plyr,dlply)
+importFrom(plyr,ddply)
+importFrom(dplyr, data_frame)
+importFrom(dplyr, '%>%')
+importFrom(dplyr, tally)
+importFrom(dplyr, summarize)
+importFrom(dplyr, group_by)
+importFrom(dplyr, ungroup)
+importFrom(abind, abind)
+export(
+add_angles,
+add_column,
+add_dist_mat,
+add_lengths,
+add_velocities,
+detect_CoM,
+spatial_rescale,
+subset_data,
+trajectory_align,
+trajectory_clean,
+trajectory_heatmap,
+trajectory_viewer,
+trnsf)
