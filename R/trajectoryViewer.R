@@ -54,6 +54,9 @@ trajectory_viewer = function(data,
                              verbose     = FALSE
                              ){
 
+  
+  # ---- tests
+  
   # ---- define variable names
   id_variables = c('ptp','trial')
   clean_variables = c('box_clean','sim_clean','max_dist','mean_sim')
