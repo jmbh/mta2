@@ -12,6 +12,8 @@
 # is there should be the option of selecting k using one f our methods.
 #
 
+# prompt(cluster_trajectory)
+
 cluster_trajectory = function(
   data,
   dimensions = c('xpos','ypos'),
@@ -31,7 +33,7 @@ cluster_trajectory = function(
 
   # distance arguments
   point_wise = TRUE, # ???
-  p = 2,
+  power = 2,
 
   # output options
   verbose = TRUE
@@ -65,20 +67,29 @@ cluster_trajectory = function(
   ss_ind <- sample(1:n, n_subsample, replace=F)
   data_short <- subset_data(data, condition = 1:n %in% ss_ind)
 
-
-  # transform data structura for clustering input
-  data_ReA <- t(apply(data_short$rescaled_trajectories, 1, function(x) c(x[1,], x[2,])))
-
   # ---- cluster trajectories
   if(method == 'hierarchical') {
 
     # distance calculation
+    data_ReA <- t(apply(data_short$rescaled_trajectories, 1, function(x) c(x[1,], x[2,])))
     distm <- dist(data_ReA, method = 'minkowski', p = p)
+
+# USING DIRK'S DISTANCE MATRIC CALCULATION: GIVES ME AN ERROR
+#     distm <- add_dist_mat(data = data_short,
+#                           dimensions =  dimensions,
+#                           trajectory_object = 'rescaled_trajectories',
+#                           point_wise =  point_wise,
+#                           power = power)
+
     # clustering
     hcl_obj <- fastcluster::hclust(distm, method = linkage)
     cl <- cutree(hcl_obj, n_cluster)
 
   } else {
+
+    # transform data structura for clustering input
+    data_ReA <- t(apply(data_short$rescaled_trajectories, 1, function(x) c(x[1,], x[2,])))
+
     # k-means
     km_obj <- kmeans(data_ReA, centers = n_cluster, nstart = n_km)
     cl <- km_obj$cluster
@@ -86,7 +97,7 @@ cluster_trajectory = function(
   # maybe: use fpc package to return some cluster diagnostics?
   }
 
-  # add to input obkect
+  # add to input object
   data$data$cluster <- cl
 
   return(data)

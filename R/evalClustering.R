@@ -4,7 +4,7 @@
 # OUPUT: Mousetrap data object + Numeric indicating optimal k (or ks) + evidence (e.g., curves or slopes)
 #
 
-
+# prompt(eval_clustering)
 
 eval_clustering = function(
   data,
@@ -14,7 +14,7 @@ eval_clustering = function(
   # preprocessing
   align = TRUE,
   rescale = TRUE,
-  n_points = 20,
+  n_resc = 20,
 
   # clustering arguments
   method = 'hierarchical', # or 'kmeans'
@@ -23,7 +23,7 @@ eval_clustering = function(
   n_subsample = NULL,
 
   # distance arguments
-  point_wise = TRUE,
+  point_wise = TRUE, # ???
   power = 2,
 
   # k-selection type
@@ -33,31 +33,32 @@ eval_clustering = function(
   # arguments instability-based k-selection methods
   B = 10, # bootstrap samples
   model_based = FALSE,
+  normalize = TRUE,
 
   # arguments distance-based k-selection methods
   n_Gap = 10 # simulated datasets for Gap Statistic
 
-  )
+)
 
 {
 
   # ---- tests
   # ifs and stops
-  if(model_based == TRUE & method = 'hierarchical') stop('Model-based instability methods are only available for k-means clustering.')
+  if(model_based == TRUE & method == 'hierarchical') stop('Model-based instability methods are only available for k-means clustering.')
 
   # ---- data align
   if(verbose == TRUE) cat('aligning','\n')
   if(align == TRUE){
-  data = trajectory_align(data,
-                          trajectory_object = trajectory_object,
-                          dimensions = dimensions,
-                          coordinates = 'mt')
+    data = trajectory_align(data,
+                            trajectory_object = trajectory_object,
+                            dimensions = dimensions,
+                            coordinates = 'mt')
   }
 
 
   # rescale trajectories
   data = spatial_rescale(data,
-                         n_points = n_points,
+                         n_points = n_resc,
                          dimensions = dimensions,
                          trajectory_object = trajectory_object)
 
@@ -73,40 +74,66 @@ eval_clustering = function(
   # ---- Distance-based k-selection methods
   if('Dist' %in% ksel_methods) {
 
-  if(verbose == TRUE) cat('calculating distance-based k-selection methods','\n')
-  cDist_obj <- cDistance(data = data_ReA,
-                         kseq = k_seq,
-                         method = method,
-                         linkage = linkage,
-                         kmIter = n_km,
-                         RunsGap = n_Gap)
+    if(verbose == TRUE) cat('calculating distance-based k-selection methods','\n')
+    cDist_obj <- cDistance(data = data_ReA,
+                           kseq = k_seq,
+                           method = method,
+                           linkage = linkage,
+                           kmIter = n_km,
+                           RunsGap = n_Gap)
 
+    l_kopt_dist <- list('kopt_Gap'=cDist_obj$kOpt_Gap,
+                        'kopt_Slope'=cDist_obj$kOpt_Slope,
+                        'kopt_Jump'=cDist_obj$kOpt_Jump)
+
+    l_details_dist <- list('sequence_Gap'=cDist_obj$Gaps,
+                           'sequence_Slope'=cDist_obj$slopes,
+                           'sequence_Jumps'=cDist_obj$jumps)
+
+
+  } else {
+    l_kopt_dist <- NULL
+    l_details_dist <-  NULL
   }
 
   # ---- Stability-based k-selection methods
   if('Stab' %in% ksel_methods) {
 
-  tt <- proc.time()[3]
-  if(verbose == TRUE) cat('calculating stability-based k-selection methods','\n')
-  cStab_obj <- cStability(data = data_ReA,
-                          kseq = kseq,
-                          B = B,
-                          norm = TRUE,
-                          prediction = model_based,
-                          type = method,
-                          linkage = linkage,
-                          kmIter = n_km,
-                          pbar = TRUE)
+    if(verbose == TRUE) cat('calculating stability-based k-selection methods','\n')
+    cStab_obj <- cStability(data = data_ReA,
+                            kseq = kseq,
+                            B = B,
+                            norm = TRUE,
+                            prediction = model_based,
+                            type = method,
+                            linkage = linkage,
+                            kmIter = n_km,
+                            pbar = TRUE)
 
+    if(normalize) {
+      kopt_stab <- cStab_obj$kopt_instab_norm
+      kopt_details <- cStab_obj$Instab_path_norm
+    } else {
+      kopt_stab <- cStab_obj$kopt_instab
+      kopt_details <- cStab_obj$Instab_path
+    }
+
+    l_kopt_stab <- list('kopt_Stability'=kopt_stab)
+    l_details_stab <- list('sequence_Stability'=kopt_details)
+
+  } else {
+    l_kopt_stab <- NULL
+    l_details_stab <-  NULL
   }
-  TT <- proc.time()[3] - tt; TT
 
-  data$optimal_k =
-  data$k_selection_details =
+  # character vector with k_optimal from different functions
+  data$optimal_k = unlist(c(l_kopt_dist, l_kopt_stab))
+  # list with k-paths of different distance/stability measures
+  data$k_selection_details = c(l_details_dist, l_details_stab)
 
   return(data)
 
-    }
+}
 
 
 
