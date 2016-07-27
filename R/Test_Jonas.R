@@ -42,7 +42,12 @@ fils = paths[which(nam == names)]
 data = readRDS(fils[1])
 data = trnsf(data)
 
+# example data
 str(data)
+plot(data$trajectories[1,2,], data$trajectories[1,3,])
+data$trajectories[1,'ypos',]
+dim(data$trajectories)
+
 
 #
 #
