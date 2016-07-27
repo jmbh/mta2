@@ -1,36 +1,4 @@
 # #Test
-<<<<<<< HEAD
-# 
-# 
-# require(Rcpp)
-# require(plyr)
-# require(dplyr)
-# require(abind)
-# 
-# sourceCpp('~/Dropbox (2.0)/Work/Software/mta2/src/trajAlign.cpp')
-# sourceCpp('~/Dropbox (2.0)/Work/Software/mta2/src/getAngles.cpp')
-# sourceCpp('~/Dropbox (2.0)/Work/Software/mta2/src/getLengths.cpp')
-# sourceCpp('~/Dropbox (2.0)/Work/Software/mta2/src/distMat.cpp')
-# sourceCpp('~/Dropbox (2.0)/Work/Software/mta2/src/spatialRescale.cpp')
-# sourceCpp('~/Dropbox (2.0)/Work/Software/mta2/src/getVelocities.cpp')
-# sourceCpp('~/Dropbox (2.0)/Work/Software/mta2/src/gaussianBlurs.cpp')
-# sourceCpp('~/Dropbox (2.0)/Work/Software/mta2/src/cleanAngles.cpp')
-# source('~/Dropbox (2.0)/Work/Software/mta2/R/addAngles.R')
-# source('~/Dropbox (2.0)/Work/Software/mta2/R/trajectoryAlign.R')
-# source('~/Dropbox (2.0)/Work/Software/mta2/R/transform.R')
-# source('~/Dropbox (2.0)/Work/Software/mta2/R/detectCoM.R')
-# source('~/Dropbox (2.0)/Work/Software/mta2/R/addDistMat.R')
-# source('~/Dropbox (2.0)/Work/Software/mta2/R/trajectoryClean.R')
-# source('~/Dropbox (2.0)/Work/Software/mta2/R/addColumn.R')
-# source('~/Dropbox (2.0)/Work/Software/mta2/R/addLengths.R')
-# source('~/Dropbox (2.0)/Work/Software/mta2/R/spatialRescale.R')
-# source('~/Dropbox (2.0)/Work/Software/mta2/R/trajectoryViewer.R')
-# source('~/Dropbox (2.0)/Work/Software/mta2/R/addVelocities.R')
-# source('~/Dropbox (2.0)/Work/Software/mta2/R/trajectoryHeatmap.R')
-# source('~/Dropbox (2.0)/Work/Software/mta2/R/subsetData.R')
-# 
-datDIR = '~/Dropbox (2.0)/Work/Projects/Mousetracking/0 Discontinuous mind/3 CleanData/'
-=======
 #
 #
 require(Rcpp)
@@ -61,7 +29,6 @@ source('/Users/jmb/Dropbox/MyData/_PhD/__software/mta2/R/trajectoryHeatmap.R')
 source('/Users/jmb/Dropbox/MyData/_PhD/__software/mta2/R/subsetData.R')
 #
 datDIR = '/Users/jmb/Dropbox/MPI/0 Discontinuous mind/3 CleanData'
->>>>>>> b4619b235dfcbce4299d40f135d3d3c58bdf4af3
 
 paths = list.files(datDIR,full.names = T)
 files = list.files(datDIR,full.names = F)
@@ -74,16 +41,16 @@ fils = paths[which(nam == names)]
 
 data = readRDS(fils[1])
 data = trnsf(data)
-<<<<<<< HEAD
-# 
-# 
-=======
 
+# example data
 str(data)
+plot(data$trajectories[1,2,], data$trajectories[1,3,])
+data$trajectories[1,'ypos',]
+dim(data$trajectories)
+
 
 #
 #
->>>>>>> b4619b235dfcbce4299d40f135d3d3c58bdf4af3
 # d = trajectory_viewer(data,show = c('points','box'),
 #                   sort_by = c('mean_sim'), sort_order = 'increasing',
 #                   rescale = TRUE,rescaled_sim = T, clean_rescale = 50,
