@@ -28,19 +28,19 @@
 # source('~/Dropbox (2.0)/Work/Software/mta2/R/trajectoryHeatmap.R')
 # source('~/Dropbox (2.0)/Work/Software/mta2/R/subsetData.R')
 # 
-# datDIR = '~/Dropbox (2.0)/Work/Projects/Mousetracking/0 Discontinuous mind/3 CleanData/'
-# 
-# paths = list.files(datDIR,full.names = T)
-# files = list.files(datDIR,full.names = F)
-# names = substr(files,1,regexpr('[_E]',files)-1)
-# uninams = unique(names)
-# 
-# nam = 'Koop2013'
-# 
-# fils = paths[which(nam == names)]
-# 
-# data = readRDS(fils[1])
-# data = trnsf(data)
+datDIR = '~/Dropbox (2.0)/Work/Projects/Mousetracking/0 Discontinuous mind/3 CleanData/'
+
+paths = list.files(datDIR,full.names = T)
+files = list.files(datDIR,full.names = F)
+names = substr(files,1,regexpr('[_E]',files)-1)
+uninams = unique(names)
+
+nam = 'Koop2013'
+
+fils = paths[which(nam == names)]
+
+data = readRDS(fils[1])
+data = trnsf(data)
 # 
 # 
 # d = trajectory_viewer(data,show = c('points','box'),
