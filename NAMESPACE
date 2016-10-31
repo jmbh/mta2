@@ -10,16 +10,11 @@ importFrom(dplyr, group_by)
 importFrom(dplyr, ungroup)
 importFrom(abind, abind)
 export(
-add_angles,
-add_column,
-add_dist_mat,
-add_lengths,
-add_velocities,
-detect_CoM,
-spatial_rescale,
-subset_data,
-trajectory_align,
-trajectory_clean,
-trajectory_heatmap,
-trajectory_viewer,
-trnsf)
+mt_angles,
+mt_distmat,
+mt_com,
+mt_spatialize,
+mt_align,
+mt_clean,
+mt_heatmap,
+mt_viewer)

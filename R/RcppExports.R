@@ -85,28 +85,28 @@ getVelocities3d <- function(xs, ys, zs) {
     .Call('mta2_getVelocities3d', PACKAGE = 'mta2', xs, ys, zs)
 }
 
-spatialRescale <- function(x, y, npts) {
-    .Call('mta2_spatialRescale', PACKAGE = 'mta2', x, y, npts)
+spatialize <- function(x, y, npts) {
+    .Call('mta2_spatialize', PACKAGE = 'mta2', x, y, npts)
 }
 
-spatialRescale3d <- function(x, y, z, npts) {
-    .Call('mta2_spatialRescale3d', PACKAGE = 'mta2', x, y, z, npts)
+spatialize3d <- function(x, y, z, npts) {
+    .Call('mta2_spatialize3d', PACKAGE = 'mta2', x, y, z, npts)
 }
 
-spatialRescaleA <- function(xs, ys, n_pts) {
-    .Call('mta2_spatialRescaleA', PACKAGE = 'mta2', xs, ys, n_pts)
+spatializeArray <- function(xs, ys, n_pts) {
+    .Call('mta2_spatializeArray', PACKAGE = 'mta2', xs, ys, n_pts)
 }
 
-spatialRescaleAlong <- function(xs, ys, n_pts) {
-    .Call('mta2_spatialRescaleAlong', PACKAGE = 'mta2', xs, ys, n_pts)
+spatializeArrayToLong <- function(xs, ys, n_pts) {
+    .Call('mta2_spatializeArrayToLong', PACKAGE = 'mta2', xs, ys, n_pts)
 }
 
-spatialRescaleA3d <- function(xs, ys, zs, n_pts) {
-    .Call('mta2_spatialRescaleA3d', PACKAGE = 'mta2', xs, ys, zs, n_pts)
+spatializeArray3d <- function(xs, ys, zs, n_pts) {
+    .Call('mta2_spatializeArray3d', PACKAGE = 'mta2', xs, ys, zs, n_pts)
 }
 
-spatialRescaleAlong3d <- function(xs, ys, zs, n_pts) {
-    .Call('mta2_spatialRescaleAlong3d', PACKAGE = 'mta2', xs, ys, zs, n_pts)
+spatializeArrayToLong3d <- function(xs, ys, zs, n_pts) {
+    .Call('mta2_spatializeArrayToLong3d', PACKAGE = 'mta2', xs, ys, zs, n_pts)
 }
 
 trajAlign <- function(xs, ys, start, end, coordinates) {

@@ -9,9 +9,10 @@
 # DESCRIPTIO
 #
 
-add_angles = function(data,
+mt_angles = function(data,
+                      use = 'trajectories',
                       dimensions = c('xpos','ypos'),
-                      trajectory_object = 'trajectories',
+
                       overwrite = FALSE,
                       replace_NAs = FALSE
                       ){

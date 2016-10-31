@@ -1,15 +1,17 @@
 #include <Rcpp.h>
 using namespace Rcpp;
 
+// spatial rescale
+//
+// basic 2D function to rescale trajectories
+// used in all 2D functions below
 
 // [[Rcpp::export]]
-NumericMatrix spatialRescale(NumericVector x, NumericVector y, int npts) {
+NumericMatrix spatialize(NumericVector x, NumericVector y, int npts) {
   int ind, n = x.size();
   NumericVector cumdiffs(n), steps(npts);
   NumericMatrix xyn(npts,2);
   double step, w1, w2, stepi, cumdiffi;
-  
-  
   // Calculate cumulative distances between points
   for(int i = 0; i < n; i++){
     if(i < 1){
@@ -18,13 +20,11 @@ NumericMatrix spatialRescale(NumericVector x, NumericVector y, int npts) {
       cumdiffs[i] = cumdiffs[i-1] + sqrt(pow(x[i] - x[i-1],2) + pow(y[i] - y[i-1],2));
       }
     }
-  
   // Calculate vector with equidistant steps
   step = double(cumdiffs[n-1]) / double(npts-1);
   for(double i = 0; i < npts; i++){
     steps[i] = step * i;
     }
-  
   // Loop over number of points for final 
   for(int i = 0; i < npts; i++){
     ind = 0;
@@ -51,29 +51,33 @@ NumericMatrix spatialRescale(NumericVector x, NumericVector y, int npts) {
   return xyn;
   }
 
+
+// spatial rescale 3d
+//
+// basic 3D function to rescale trajectories
+// used in all 3D functions below
+
+
+
 // [[Rcpp::export]]
-NumericMatrix spatialRescale3d(NumericVector x, NumericVector y, NumericVector z, int npts) {
+NumericMatrix spatialize3d(NumericVector x, NumericVector y, NumericVector z, int npts) {
   int ind, n = x.size();
   NumericVector cumdiffs(n), steps(npts);
   NumericMatrix xyn(npts,3);
   double step, w1, w2, stepi, cumdiffi;
-  
-  
   // Calculate cumulative distances between points
   for(int i = 0; i < n; i++){
     if(i < 1){
       cumdiffs[i] = 0.0;
-    } else {
+      } else {
       cumdiffs[i] = cumdiffs[i-1] + sqrt(pow(x[i] - x[i-1],2) + pow(y[i] - y[i-1],2));
+      }
     }
-  }
-  
   // Calculate vector with equidistant steps
   step = double(cumdiffs[n-1]) / double(npts-1);
   for(double i = 0; i < npts; i++){
     steps[i] = step * i;
-  }
-  
+    }
   // Loop over number of points for final 
   for(int i = 0; i < npts; i++){
     ind = 0;
@@ -81,33 +85,38 @@ NumericMatrix spatialRescale3d(NumericVector x, NumericVector y, NumericVector z
       stepi    = steps[i];
       cumdiffi = cumdiffs[j];
       if(stepi > cumdiffi) ind++;
-    }
+      }
     if(i != (npts-1) && i != 0){
       w1 = std::abs(double(steps[i]) - double(cumdiffs[ind-1]));
       w2 = std::abs(double(steps[i]) - double(cumdiffs[ind]));
       xyn(i,0) = double(x[ind-1]) * w2/(w1+w2) + double(x[ind]) * w1/(w1+w2);
       xyn(i,1) = double(y[ind-1]) * w2/(w1+w2) + double(y[ind]) * w1/(w1+w2);
       xyn(i,2) = double(z[ind-1]) * w2/(w1+w2) + double(z[ind]) * w1/(w1+w2); 
-    }      
+      }      
     else if(i == 0){
       xyn(i,0) = double(x[0]);
       xyn(i,1) = double(y[0]);
       xyn(i,2) = double(z[0]);
-    }
+      }
     else {
       xyn(i,0) = double(x[n-1]);
       xyn(i,1) = double(y[n-1]);
       xyn(i,2) = double(z[n-1]);
+      }
     }
-  }
   return xyn;
-}
+  }
 
 
+
+// spatial rescale (A)rray
+//
+// takes two matrixes as input and returns a list of two matrices 
+// containing rescaled versions of the input matrices
 
 
 // [[Rcpp::export]]
-GenericVector spatialRescaleA(NumericMatrix xs,
+GenericVector spatializeArray(NumericMatrix xs,
                               NumericMatrix ys,
                               NumericVector n_pts){
   GenericVector xy(2);
@@ -127,7 +136,7 @@ GenericVector spatialRescaleA(NumericMatrix xs,
   NumericMatrix nxs(xs.nrow(), max_pts);
   NumericMatrix nys(ys.nrow(), max_pts);
   for(int i = 0; i < xs.nrow(); i++){
-    NumericMatrix resc_traj = spatialRescale(xs(i,_), ys(i,_), n_pts_v[i]);
+    NumericMatrix resc_traj = spatialize(xs(i,_), ys(i,_), n_pts_v[i]);
     for(int j = 0; j < max_pts; j++){
       if(j < resc_traj.nrow()){
         nxs(i, j) = resc_traj(j,0);
@@ -144,10 +153,17 @@ GenericVector spatialRescaleA(NumericMatrix xs,
 }
 
 
+// spatial rescale (A)rray long
+//
+// takes two matrixes as input and returns a Matrix
+// containing the values of the input matrices in one
+// columns each.
+
+
 // [[Rcpp::export]]
-NumericMatrix spatialRescaleAlong(NumericMatrix xs,
-                                 NumericMatrix ys,
-                                 NumericVector n_pts){
+NumericMatrix spatializeArrayToLong(NumericMatrix xs,
+                                    NumericMatrix ys,
+                                    NumericVector n_pts){
   NumericVector n_pts_v(xs.nrow());
   int total_pts = 0;
   for(int i = 0; i < n_pts.size(); i++){  
@@ -163,7 +179,7 @@ NumericMatrix spatialRescaleAlong(NumericMatrix xs,
   NumericMatrix xy(total_pts, 2);
   int ind = 0;
   for(int i = 0; i < xs.nrow(); i++){
-    NumericMatrix resc_traj = spatialRescale(xs(i,_), ys(i,_), n_pts_v[i]);
+    NumericMatrix resc_traj = spatialize(xs(i,_), ys(i,_), n_pts_v[i]);
     for(int j = 0; j < resc_traj.nrow(); j++){
       xy(ind, 0) = resc_traj(j,0);
       xy(ind, 1) = resc_traj(j,1);
@@ -174,9 +190,14 @@ NumericMatrix spatialRescaleAlong(NumericMatrix xs,
   }
 
 
+// spatial rescale (A)rray 3D
+//
+// takes two matrixes as input and returns a list of two matrices 
+// containing rescaled versions of the input matrices
+
 
 // [[Rcpp::export]]
-GenericVector spatialRescaleA3d(NumericMatrix xs,
+GenericVector spatializeArray3d(NumericMatrix xs,
                                 NumericMatrix ys,
                                 NumericMatrix zs,
                                 NumericVector n_pts){
@@ -198,7 +219,7 @@ GenericVector spatialRescaleA3d(NumericMatrix xs,
   NumericMatrix nys(ys.nrow(), max_pts);
   NumericMatrix nzs(zs.nrow(), max_pts);
   for(int i = 0; i < xs.nrow(); i++){
-    NumericMatrix resc_traj = spatialRescale3d(xs(i,_), ys(i,_), zs(i,_), n_pts_v[i]);
+    NumericMatrix resc_traj = spatialize3d(xs(i,_), ys(i,_), zs(i,_), n_pts_v[i]);
     for(int j = 0; j < max_pts; j++){
       if(j < resc_traj.nrow()){
         nxs(i, j) = resc_traj(j,0);
@@ -218,11 +239,17 @@ GenericVector spatialRescaleA3d(NumericMatrix xs,
   }
 
 
+// spatial rescale (A)rray long 3D
+//
+// takes two matrixes as input and returns a Matrix
+// containing the values of the input matrices in one
+// columns each.
+
 // [[Rcpp::export]]
-NumericMatrix spatialRescaleAlong3d(NumericMatrix xs,
-                                    NumericMatrix ys,
-                                    NumericMatrix zs,
-                                    NumericVector n_pts){
+NumericMatrix spatializeArrayToLong3d(NumericMatrix xs,
+                                      NumericMatrix ys,
+                                      NumericMatrix zs,
+                                      NumericVector n_pts){
   NumericVector n_pts_v(xs.nrow());
   int total_pts = 0;
   for(int i = 0; i < n_pts.size(); i++){  
@@ -238,7 +265,7 @@ NumericMatrix spatialRescaleAlong3d(NumericMatrix xs,
   NumericMatrix xyz(total_pts, 3);
   int ind = 0;
   for(int i = 0; i < xs.nrow(); i++){
-    NumericMatrix resc_traj = spatialRescale3d(xs(i,_), ys(i,_), zs(i,_), n_pts_v[i]);
+    NumericMatrix resc_traj = spatialize3d(xs(i,_), ys(i,_), zs(i,_), n_pts_v[i]);
     for(int j = 0; j < resc_traj.nrow(); j++){
       xyz(ind, 0) = resc_traj(j,0);
       xyz(ind, 1) = resc_traj(j,1);

@@ -274,22 +274,22 @@ BEGIN_RCPP
     return __result;
 END_RCPP
 }
-// spatialRescale
-NumericMatrix spatialRescale(NumericVector x, NumericVector y, int npts);
-RcppExport SEXP mta2_spatialRescale(SEXP xSEXP, SEXP ySEXP, SEXP nptsSEXP) {
+// spatialize
+NumericMatrix spatialize(NumericVector x, NumericVector y, int npts);
+RcppExport SEXP mta2_spatialize(SEXP xSEXP, SEXP ySEXP, SEXP nptsSEXP) {
 BEGIN_RCPP
     Rcpp::RObject __result;
     Rcpp::RNGScope __rngScope;
     Rcpp::traits::input_parameter< NumericVector >::type x(xSEXP);
     Rcpp::traits::input_parameter< NumericVector >::type y(ySEXP);
     Rcpp::traits::input_parameter< int >::type npts(nptsSEXP);
-    __result = Rcpp::wrap(spatialRescale(x, y, npts));
+    __result = Rcpp::wrap(spatialize(x, y, npts));
     return __result;
 END_RCPP
 }
-// spatialRescale3d
-NumericMatrix spatialRescale3d(NumericVector x, NumericVector y, NumericVector z, int npts);
-RcppExport SEXP mta2_spatialRescale3d(SEXP xSEXP, SEXP ySEXP, SEXP zSEXP, SEXP nptsSEXP) {
+// spatialize3d
+NumericMatrix spatialize3d(NumericVector x, NumericVector y, NumericVector z, int npts);
+RcppExport SEXP mta2_spatialize3d(SEXP xSEXP, SEXP ySEXP, SEXP zSEXP, SEXP nptsSEXP) {
 BEGIN_RCPP
     Rcpp::RObject __result;
     Rcpp::RNGScope __rngScope;
@@ -297,53 +297,39 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< NumericVector >::type y(ySEXP);
     Rcpp::traits::input_parameter< NumericVector >::type z(zSEXP);
     Rcpp::traits::input_parameter< int >::type npts(nptsSEXP);
-    __result = Rcpp::wrap(spatialRescale3d(x, y, z, npts));
+    __result = Rcpp::wrap(spatialize3d(x, y, z, npts));
     return __result;
 END_RCPP
 }
-// spatialRescaleA
-GenericVector spatialRescaleA(NumericMatrix xs, NumericMatrix ys, NumericVector n_pts);
-RcppExport SEXP mta2_spatialRescaleA(SEXP xsSEXP, SEXP ysSEXP, SEXP n_ptsSEXP) {
+// spatializeArray
+GenericVector spatializeArray(NumericMatrix xs, NumericMatrix ys, NumericVector n_pts);
+RcppExport SEXP mta2_spatializeArray(SEXP xsSEXP, SEXP ysSEXP, SEXP n_ptsSEXP) {
 BEGIN_RCPP
     Rcpp::RObject __result;
     Rcpp::RNGScope __rngScope;
     Rcpp::traits::input_parameter< NumericMatrix >::type xs(xsSEXP);
     Rcpp::traits::input_parameter< NumericMatrix >::type ys(ysSEXP);
     Rcpp::traits::input_parameter< NumericVector >::type n_pts(n_ptsSEXP);
-    __result = Rcpp::wrap(spatialRescaleA(xs, ys, n_pts));
+    __result = Rcpp::wrap(spatializeArray(xs, ys, n_pts));
     return __result;
 END_RCPP
 }
-// spatialRescaleAlong
-NumericMatrix spatialRescaleAlong(NumericMatrix xs, NumericMatrix ys, NumericVector n_pts);
-RcppExport SEXP mta2_spatialRescaleAlong(SEXP xsSEXP, SEXP ysSEXP, SEXP n_ptsSEXP) {
+// spatializeArrayToLong
+NumericMatrix spatializeArrayToLong(NumericMatrix xs, NumericMatrix ys, NumericVector n_pts);
+RcppExport SEXP mta2_spatializeArrayToLong(SEXP xsSEXP, SEXP ysSEXP, SEXP n_ptsSEXP) {
 BEGIN_RCPP
     Rcpp::RObject __result;
     Rcpp::RNGScope __rngScope;
     Rcpp::traits::input_parameter< NumericMatrix >::type xs(xsSEXP);
     Rcpp::traits::input_parameter< NumericMatrix >::type ys(ysSEXP);
     Rcpp::traits::input_parameter< NumericVector >::type n_pts(n_ptsSEXP);
-    __result = Rcpp::wrap(spatialRescaleAlong(xs, ys, n_pts));
+    __result = Rcpp::wrap(spatializeArrayToLong(xs, ys, n_pts));
     return __result;
 END_RCPP
 }
-// spatialRescaleA3d
-GenericVector spatialRescaleA3d(NumericMatrix xs, NumericMatrix ys, NumericMatrix zs, NumericVector n_pts);
-RcppExport SEXP mta2_spatialRescaleA3d(SEXP xsSEXP, SEXP ysSEXP, SEXP zsSEXP, SEXP n_ptsSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject __result;
-    Rcpp::RNGScope __rngScope;
-    Rcpp::traits::input_parameter< NumericMatrix >::type xs(xsSEXP);
-    Rcpp::traits::input_parameter< NumericMatrix >::type ys(ysSEXP);
-    Rcpp::traits::input_parameter< NumericMatrix >::type zs(zsSEXP);
-    Rcpp::traits::input_parameter< NumericVector >::type n_pts(n_ptsSEXP);
-    __result = Rcpp::wrap(spatialRescaleA3d(xs, ys, zs, n_pts));
-    return __result;
-END_RCPP
-}
-// spatialRescaleAlong3d
-NumericMatrix spatialRescaleAlong3d(NumericMatrix xs, NumericMatrix ys, NumericMatrix zs, NumericVector n_pts);
-RcppExport SEXP mta2_spatialRescaleAlong3d(SEXP xsSEXP, SEXP ysSEXP, SEXP zsSEXP, SEXP n_ptsSEXP) {
+// spatializeArray3d
+GenericVector spatializeArray3d(NumericMatrix xs, NumericMatrix ys, NumericMatrix zs, NumericVector n_pts);
+RcppExport SEXP mta2_spatializeArray3d(SEXP xsSEXP, SEXP ysSEXP, SEXP zsSEXP, SEXP n_ptsSEXP) {
 BEGIN_RCPP
     Rcpp::RObject __result;
     Rcpp::RNGScope __rngScope;
@@ -351,7 +337,21 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< NumericMatrix >::type ys(ysSEXP);
     Rcpp::traits::input_parameter< NumericMatrix >::type zs(zsSEXP);
     Rcpp::traits::input_parameter< NumericVector >::type n_pts(n_ptsSEXP);
-    __result = Rcpp::wrap(spatialRescaleAlong3d(xs, ys, zs, n_pts));
+    __result = Rcpp::wrap(spatializeArray3d(xs, ys, zs, n_pts));
+    return __result;
+END_RCPP
+}
+// spatializeArrayToLong3d
+NumericMatrix spatializeArrayToLong3d(NumericMatrix xs, NumericMatrix ys, NumericMatrix zs, NumericVector n_pts);
+RcppExport SEXP mta2_spatializeArrayToLong3d(SEXP xsSEXP, SEXP ysSEXP, SEXP zsSEXP, SEXP n_ptsSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject __result;
+    Rcpp::RNGScope __rngScope;
+    Rcpp::traits::input_parameter< NumericMatrix >::type xs(xsSEXP);
+    Rcpp::traits::input_parameter< NumericMatrix >::type ys(ysSEXP);
+    Rcpp::traits::input_parameter< NumericMatrix >::type zs(zsSEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type n_pts(n_ptsSEXP);
+    __result = Rcpp::wrap(spatializeArrayToLong3d(xs, ys, zs, n_pts));
     return __result;
 END_RCPP
 }
